@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!-- macOS launchd job: runs every hour at :30; the script itself decides by New York time.
+     Edit the two paths, then:
+       cp scripts/com.lminsl.wsj-brief.plist ~/Library/LaunchAgents/
+       launchctl load ~/Library/LaunchAgents/com.lminsl.wsj-brief.plist -->
+<plist version="1.0">
+<dict>
+  <key>Label</key><string>com.lminsl.wsj-brief</string>
+  <key>ProgramArguments</key>
+  <array><string>/Users/YOU/lminsl-site/wsj-brief/scripts/run-local.sh</string></array>
+  <key>StartCalendarInterval</key><dict><key>Minute</key><integer>30</integer></dict>
+  <key>StandardOutPath</key><string>/Users/YOU/Library/Logs/wsj-brief.log</string>
+  <key>StandardErrorPath</key><string>/Users/YOU/Library/Logs/wsj-brief.log</string>
+</dict>
+</plist>
