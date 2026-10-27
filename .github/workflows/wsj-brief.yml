@@ -1,0 +1,70 @@
+name: WSJ Korean morning brief
+
+# GitHub cron is UTC-only. These four slots cover 06:30-09:30 New York time in both
+# EDT and EST; the run itself checks the America/New_York clock (--gate), builds at
+# most one edition per date, and skips once that date's edition exists. Later slots
+# act as retries after a failed or late run.
+on:
+  schedule:
+    - cron: "30 10 * * *"
+    - cron: "30 11 * * *"
+    - cron: "30 12 * * *"
+    - cron: "30 13 * * *"
+  workflow_dispatch:
+
+concurrency:
+  group: wsj-brief
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+jobs:
+  brief:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    outputs:
+      result: ${{ steps.run.outputs.result }}
+    defaults:
+      run:
+        working-directory: wsj-brief
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: wsj-brief/package-lock.json
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - name: Configure git
+        run: |
+          git config user.name "wsj-brief-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+      - name: Build today's edition
+        id: run
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          WSJ_PROXY: ${{ secrets.WSJ_PROXY }}
+        # Manual runs skip the time window; scheduled runs respect it.
+        run: node src/run.mjs --publish ${{ github.event_name == 'schedule' && '--gate' || '' }}
+      - name: Keep debug snapshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: wsj-brief-debug
+          path: wsj-brief/debug/
+          if-no-files-found: ignore
+          retention-days: 7
+
+  deploy:
+    needs: brief
+    # Deploy after a new edition, and after a failure so the page shows the notice.
+    if: always() && (needs.brief.outputs.result == 'published' || needs.brief.outputs.result == 'failed')
+    uses: ./.github/workflows/gh-pages.yml
+    with:
+      ref: main

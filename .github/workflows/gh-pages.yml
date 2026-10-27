@@ -8,6 +8,15 @@ on:
       - "README.md"
     branches:
       - main
+  # Called by the WSJ brief workflow after it commits a new edition
+  # (pushes made with GITHUB_TOKEN do not trigger the push event above).
+  workflow_call:
+    inputs:
+      ref:
+        description: "Git ref to build"
+        required: false
+        type: string
+        default: ""
   workflow_dispatch:
     # manual run
     inputs:
@@ -49,6 +58,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
+          ref: ${{ inputs.ref }}
           submodules: recursive  # Fetch Hugo themes (true OR recursive)
           fetch-depth: 0         # Fetch all history for .GitInfo and .Lastmod
       - name: Setup Pages

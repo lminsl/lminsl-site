@@ -1,0 +1,84 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width">
+<title>The Wall Street Journal</title>
+<style>
+ body{font-family:sans-serif;margin:0} article{padding:10px;border-bottom:1px solid #ccc}
+ h3.big{font-size:24px} h3{font-size:18px} .related h3{font-size:15px}
+ img{width:100%;height:200px;display:block} img.headshot{width:60px;height:60px}
+ .spacer{height:1400px} .hidden{display:none}
+</style></head>
+<body>
+<header><nav><a href="/news/world">World</a><a href="/news/us">U.S. News and Politics Section</a></nav>
+ <div class="ticker"><a href="/market-data/quotes/index/DJIA">DJIA 42,000.12 +0.4% Dow Jones Industrial Average</a></div></header>
+<main>
+<section>
+ <article>
+  <h3 class="big"><a href="https://www.wsj.com/world/middle-east/irans-fleet-of-shadow-tankers-has-run-out-of-oil-0822b050?mod=mhp">Iran’s Fleet of Shadow Tankers Has Run Out of Oil After Monthslong U.S. Blockade</a></h3>
+  <p class="summary">Tehran had millions of barrels of crude in tankers floating in Asian waters that gave it a steady flow of much-needed cash. Now, that oil has dried up.</p>
+  <span class="byline">By Benoit Faucon and Summer Said</span>
+  <a class="comment-link" aria-label="422 comments" href="#c">422</a>
+  <ul class="related">
+   <li><h3><a href="https://www.wsj.com/world/middle-east/diplomats-race-to-head-off-escalation-with-iran-4dd00ab4?mod=mhp">Diplomats Race to Head Off Escalation With Iran</a></h3></li>
+   <li><h3><a href="https://www.wsj.com/world/middle-east/one-person-killed-in-airport-attack-4c84d5d4">One Person Killed and 8 Injured in Airport Attack in Saudi Arabia</a></h3></li>
+  </ul>
+  <img src="/img/im-42140174?width=600&height=600" alt="An oil tanker belonging to Iran’s shadow fleet anchored in Asian waters">
+ </article>
+ <article>
+  <h3 class="big"><a href="https://www.wsj.com/business/spacex-and-tesla-already-act-like-one-company-1a2b3c4d">SpaceX and Tesla Already Act Like One Company. A Merger Would Make It Official.</a></h3>
+  <p>Elon Musk has for decades combined resources and business ideas between his two biggest companies.</p>
+  <img src="/img/im-11111111?width=600" alt="Stock photo of a city skyline at dusk">
+ </article>
+</section>
+<section>
+ <h2 class="section-title">Video</h2>
+ <article>
+  <h3><a href="https://www.wsj.com/video/series/news/how-a-hurricane-forms/AB12CD34">How a Hurricane Forms Over the Warm Waters of the Atlantic</a></h3>
+  <span class="duration">4:12</span>
+ </article>
+</section>
+<section>
+ <h2 class="section-title">Most Popular</h2>
+ <article><h3><a href="https://www.wsj.com/articles/a-very-popular-story-11111111">A Very Popular Story That Should Be Excluded</a></h3></article>
+</section>
+<section>
+ <h2 class="section-title">Business &amp; Finance</h2>
+ <article>
+  <h3><a href="https://www.barrons.com/articles/stocks-to-buy-now-5555">Barron’s Picks: Stocks to Buy Now Before the Rally</a></h3>
+ </article>
+ <article>
+  <span class="label">Sponsored</span>
+  <h3><a href="https://partners.wsj.com/brand/story">A Brand Story About Cloud Software Innovation</a></h3>
+ </article>
+ <article>
+  <h3><a href="https://www.wsj.com/business/autos/gm-raises-guidance-ffee1122">GM Raises Profit Outlook as Truck Sales Stay Strong</a></h3>
+  <p>The automaker said demand for pickups held up despite higher prices.</p>
+  <span class="hidden">This hidden text is not a summary of anything at all</span>
+ </article>
+</section>
+<div class="spacer"></div>
+<section id="lazy"></section>
+</main>
+<footer><a href="/about/terms-of-use">Terms of Use and other footer links here</a></footer>
+<script>
+ // Mimic WSJ lazy loading: the Opinion block appears only after scrolling near the bottom.
+ let loaded = false;
+ addEventListener('scroll', () => {
+  if (loaded || scrollY + innerHeight < document.body.scrollHeight - 300) return;
+  loaded = true;
+  setTimeout(() => {
+   document.getElementById('lazy').innerHTML = `
+    <h2 class="section-title">Opinion</h2>
+    <article>
+     <a href="https://www.wsj.com/opinion/the-fed-blinks-again-7e7e7e7e"><h3>The Fed Blinks Again on Inflation</h3></a>
+     <span class="byline"><img class="headshot" src="/img/headshot-board" alt="The Editorial Board">The Editorial Board</span>
+    </article>
+    <article>
+     <h3>Why Michigan Voters Are Still Undecided</h3>
+     <span class="byline">By Kimberley A. Strassel</span>
+    </article>
+    <div class="spacer"></div>
+    <ul><li><a href="https://www.wsj.com/opinion/why-michigan-voters-are-still-undecided-9f9f9f9f">Why Michigan Voters Are Still Undecided</a></li></ul>`;
+  }, 300);
+ });
+</script>
+</body></html>
